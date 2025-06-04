@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { mongo } from "mongoose";
 import bcrypt from "bcryptjs";
 
 const userSchema = new mongoose.Schema(
@@ -15,13 +15,9 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
-      minlength: 6,
+      unique: true,
     },
     bio: {
-      type: String,
-      default: "",
-    },
-    profilePic: {
       type: String,
       default: "",
     },
@@ -50,11 +46,9 @@ const userSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-//  this all are the prehook
 
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
-
   try {
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
@@ -73,5 +67,4 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
 };
 
 const User = mongoose.model("User", userSchema);
-
 export default User;
