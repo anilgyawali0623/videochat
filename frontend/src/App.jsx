@@ -10,6 +10,7 @@ import OnboardingPage from "./pages/OnboardingPage.jsx";
 import { Toaster } from "react-hot-toast";
 import { useQuery } from "@tanstack/react-query";
 import { axiosInstance } from "./lib/axios.js";
+import PageLoader from "./components/PageLoader.jsx";
 
 function App() {
   const {
@@ -27,7 +28,7 @@ function App() {
   });
 
   const authUser = authData?.user;
-
+ if(isLoading) return <PageLoader/>
   return (
     <div className="h-screen ">
       <Routes>
