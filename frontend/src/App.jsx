@@ -7,8 +7,22 @@ import NotificationsPage from "./pages/NotificationsPage.jsx";
 import CallPage from "./pages/CallPage.jsx";
 import ChatPage from "./pages/ChatPage.jsx";
 import OnboardingPage from "./pages/OnboardingPage.jsx";
-import {Toaster} from "react-hot-toast"
+import { Toaster } from "react-hot-toast";
+import { useQuery } from "@tanstack/react-query";
+import { axiosInstance } from "./lib/axios.js";
+
 function App() {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["todos"],
+
+    queryFn: async () => {
+
+      const res = await axiosInstance.get("");
+
+      return res.data;
+    },
+  });
+
   return (
     <div className="h-screen ">
       <Routes>
@@ -21,7 +35,7 @@ function App() {
 
         <Route path="/onboarding" element={<OnboardingPage />} />
       </Routes>
-       <Toaster />
+      <Toaster />
     </div>
   );
 }
