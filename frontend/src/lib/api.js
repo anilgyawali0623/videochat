@@ -25,10 +25,14 @@ export const getAuthUser = async () => {
   }
 };
 
+
+
+
+
  export const completeBoarding= async (userData)=>{
    const response= await axiosInstance.post('/auth/onboarding', userData);
     return response.data;
-    
+
  }
 
 
